@@ -14,15 +14,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && $user['password'] === $password) { // ⚠️ luego cambiaremos esto a password_hash
+        // 🔹 Guardar los datos en la sesión
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['usuario'] = $user['name'];
         $_SESSION['rol'] = $user['role'];
-        header("Location: dashboard.php");
+
+        // 🔹 Redirigir según el rol
+        if ($user['role'] === 'supervisor') {
+            header("Location: ../views/board.php");
+        } else {
+            header("Location: ../views/dashboard.php");
+        }
         exit();
     } else {
         echo "<p style='color:red;'>❌ Credenciales incorrectas.</p>";
     }
 }
 ?>
+
 
 
 
