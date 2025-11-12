@@ -1,0 +1,59 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard_container {
+    padding: 15px;
+}
+
+.titulo_dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulo {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.status {
+    font-size: 0.8rem;
+    color: grey;
+}
+
+.task {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.task_semaforo {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #2ecc71;
+}
+
+.task_informacion {
+    flex: 1; 
+}
+
+.task_informacion .titulo {
+    font-weight: 600;
+    margin: 0;
+}
+
+.task_informacion .status {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 0;
+}
+
+.task_link {
+    margin-left: 10px;
+}
