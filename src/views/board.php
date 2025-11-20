@@ -42,7 +42,7 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="dashboard">
                 <div class="titulo_dashboard">
                     <h2><?= htmlspecialchars($board['name']) ?></h2>
-                    <a href="">Ver Dashboard</a>
+                    <a href="tasks.php?board_id=<?= $board['id'] ?>">Ver Dashboard</a>
                 </div>
                 <div class="tasks">
                     <div class="completed">
