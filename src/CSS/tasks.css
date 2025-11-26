@@ -57,3 +57,15 @@ p {
 .task_link {
     margin-left: 10px;
 }
+
+.edit_container {
+    margin: 0 auto;
+    width: 50%;
+    border: solid;
+    padding: 15px;
+}
+
+.edit_status_opciones {
+    display: flex;
+    justify-content: space-around;
+}

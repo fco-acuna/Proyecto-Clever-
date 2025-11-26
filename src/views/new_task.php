@@ -10,6 +10,16 @@ require_once __DIR__ . '/../config/db.php';
 
 $board_id = (int) $_GET['board_id'];
 
+// Obtener info del board
+$stmt = $conn->prepare("SELECT name FROM boards WHERE id = :id LIMIT 1");
+$stmt->bindParam(':id', $board_id, PDO::PARAM_INT);
+$stmt->execute();
+$board = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$board) {
+    die("Error: Board no encontrado.");
+}
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $title = trim($_POST['title']);
@@ -36,11 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear nueva Task</title>
+    <title>Crear nueva tarea</title>
 </head>
 <body>
 
-<h2>Crear Task para Board #<?= htmlspecialchars($board_id) ?></h2>
+<h2>Crear Nueva Tarea dentro del Board <?= htmlspecialchars($board["name"]) ?></h2>
 
 <?php if (isset($error)): ?>
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
@@ -60,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <option value="completada">Completada</option>
     </select><br><br>
 
-    <button type="submit">Crear Task</button>
+    <button type="submit">Crear Nueva Tarea</button>
 </form>
 
 </body>
