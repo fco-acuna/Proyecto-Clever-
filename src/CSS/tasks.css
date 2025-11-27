@@ -62,10 +62,39 @@ p {
     margin: 0 auto;
     width: 50%;
     border: solid;
-    padding: 15px;
+    padding: 25px;
+}
+
+.edit_status {
+    margin: 20px;
 }
 
 .edit_status_opciones {
     display: flex;
     justify-content: space-around;
+    margin-top: 15px;
 }
+
+.edit_titulo h1 {
+    margin: 5px;
+}
+
+.edit_descripcion h1 {
+    margin: 5px;
+}
+
+.edit_opciones.selected {
+    border-color: #3498db;
+    box-shadow: 0px 0px 8px rgba(52, 152, 219, 0.7);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.edit_opciones input {
+    display: none; /* ocultamos el radio */
+}
+.edit_opciones {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+

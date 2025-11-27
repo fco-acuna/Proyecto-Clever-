@@ -61,7 +61,9 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="status"><?= htmlspecialchars($task['status']) ?></p>
                         </div>
                         <div class="task_link">
-                            <p>→</p>
+                            <a href="tasks_info.php?id=<?= $task['id'] ?>">
+                                <?= htmlspecialchars($task['title']) ?>
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
