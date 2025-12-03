@@ -19,15 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['usuario'] = $user['name'];
         $_SESSION['rol'] = $user['role'];
 
-        // 🔹 Redirigir según el rol
-        if ($user['role'] === 'supervisor') {
-            header("Location: ../views/board.php");
-        } else {
-            header("Location: ../views/dashboard.php");
+        // 🔹 Redirigir 
+        if (isset($_SESSION['user_id'])) {
+            header("Location: ../views/board.php");// está logueado
         }
-        exit();
-    } else {
-        echo "<p style='color:red;'>❌ Credenciales incorrectas.</p>";
     }
 }
 ?>
