@@ -29,16 +29,16 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container_dashboards">
 
-    <div class="container_titulo">
-        <h1>Dashboards</h1>
-
-        <form action="create_board.php" method="POST" class="form_crear_board">
-            <input type="text" name="name" placeholder="Nombre del Board" required>
-            <textarea name="description" placeholder="Descripción opcional"></textarea>
-            <button type="submit">Crear Board</button>
-        </form>
-    </div>
-
+    <?php if ($_SESSION['rol'] === "supervisor"): ?>
+        <div class="container_titulo">
+            <h1>Dashboards</h1>
+            <form action="create_board.php" method="POST" class="form_crear_board">
+                <input type="text" name="name" placeholder="Nombre del Board" required>
+                <textarea name="description" placeholder="Descripción opcional"></textarea>
+                <button type="submit">Crear Board</button>
+            </form>
+        </div>
+    <?php endif; ?>
 
     <?php foreach ($boards as $board): ?>
 

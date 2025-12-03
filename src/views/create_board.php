@@ -13,8 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Asegúrate de que el usuario esté logueado
     if (!isset($_SESSION['user_id'])) {
-        die("⚠️ Debes iniciar sesión para crear un board.");
+        die("⚠️ Debes iniciar sesión");
+    } else {
+    // Aquí ya sabemos que SÍ está logueado
+    // Ahora verificamos: ¿es supervisor?
+    if ($_SESSION['rol'] !== 'supervisor') { // <-- Fíjate aquí
+        die("⚠️ Solo los supervisores pueden crear boards");
     }
+}
 
     $created_by = $_SESSION['user_id'];
 
