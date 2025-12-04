@@ -288,6 +288,10 @@ $error = $_GET['error'] ?? '';
                 <p>No hay tareas en este board.</p>
             <?php endif; ?>
         </div>
+
+        <div>
+            <a href="../views/board.php">Regreso a Boards</a>
+        </div>
     </div>
 </body>
 </html>

@@ -1,1 +1,3 @@
-<?php echo "Hola mundo desde PHP"; ?>
+<?php
+header("Location: /views/login.php");
+exit;

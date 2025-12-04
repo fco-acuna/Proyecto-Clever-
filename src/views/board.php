@@ -27,6 +27,8 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
+<?php require_once 'header.php'; ?>
+
 <div class="container_dashboards">
 
     <?php if ($_SESSION['rol'] === "supervisor"): ?>
