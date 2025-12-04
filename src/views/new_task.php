@@ -73,5 +73,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <button type="submit">Crear Nueva Tarea</button>
 </form>
 
+<div>
+    <a href="../views/board.php">Regreso a tareas</a>
+</div>
+
 </body>
 </html>

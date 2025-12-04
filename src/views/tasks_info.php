@@ -6,13 +6,14 @@ if (!isset($_GET["id"])) {
     die("No task ID provided");
 }
 
-$task_id = $_GET["id"];
 
+$task_id = $_GET["id"];
 $stmt = $conn->prepare("SELECT * FROM tasks WHERE id = :id");
 $stmt->bindParam(':id', $task_id, PDO::PARAM_INT);
 $stmt->execute();
 
 $task = $stmt->fetch(PDO::FETCH_ASSOC);
+$board_id = $task["board_id"];
 
 if (!$task) {
     die("Task not found");
@@ -66,7 +67,7 @@ if (!$task) {
                             <?= $task["status"] === "pendiente" ? "checked" : "" ?>>
                         <p>Backlog</p>
                     </label>
-
+                    <input type="hidden" name="board_id" value="<?= htmlspecialchars($board_id) ?>">
                 </div>
             </div>
 
