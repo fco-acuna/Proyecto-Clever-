@@ -25,12 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $created_by = $_SESSION['user_id'];
 
     try {
-        // Inserta en la base de datos
+        // Inserta en la base de datos / crear el board
         $stmt = $conn->prepare("INSERT INTO boards (name, description, created_by) VALUES (:name, :description, :created_by)");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':created_by', $created_by);
 
+        $stmt->execute();
+        $board_id = $conn->lastInsertId();
+
+        // Asignar automáticamente al supervisor que lo creó
+        $stmt = $conn->prepare("INSERT INTO board_users (board_id, user_id) VALUES (:board_id, :user_id)");
+        $stmt->bindParam(':board_id', $board_id);
+        $stmt->bindParam(':user_id', $_SESSION['user_id']);
         $stmt->execute();
 
         // Redirige de nuevo al dashboard o página de boards
