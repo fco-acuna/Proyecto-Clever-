@@ -11,7 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Obtener boards del usuario
-$stmt = $conn->prepare("SELECT * FROM boards WHERE created_by = :user_id ORDER BY created_at DESC");
+$stmt = $conn->prepare("
+        SELECT boards.* 
+        FROM boards
+        INNER JOIN board_users ON boards.id = board_users.board_id
+        WHERE board_users.user_id = :user_id 
+        ORDER BY boards.created_at DESC
+    ");
 $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
