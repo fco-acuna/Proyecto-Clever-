@@ -59,6 +59,18 @@ $stmt->bindParam(':board_id', $board_id, PDO::PARAM_INT);
 $stmt->execute();
 $available_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Obtener el name del usuario 
+
+$stmt = $conn->prepare("
+    SELECT tasks.*, users.name as responsible_name 
+    FROM tasks 
+    LEFT JOIN users ON tasks.assigned_to = users.id
+    WHERE tasks.board_id = :board_id
+");
+$stmt->bindParam(':board_id', $board_id, PDO::PARAM_INT);
+$stmt->execute();  // <-- Ejecutar
+$tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // 8️⃣ Manejo de mensajes de éxito/error
 $message = $_GET['msg'] ?? '';
 $error = $_GET['error'] ?? '';
@@ -275,6 +287,9 @@ $error = $_GET['error'] ?? '';
                         </div>
                         <div class="task_informacion">
                             <p class="titulo"><?= htmlspecialchars($task['title']) ?></p>
+                            <p class="responsable">
+                                <?= htmlspecialchars($task['responsible_name']) ?>
+                            </p>
                             <p class="status"><?= htmlspecialchars($task['status']) ?></p>
                         </div>
                         <div class="task_link">
