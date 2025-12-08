@@ -288,7 +288,7 @@ $error = $_GET['error'] ?? '';
                         <div class="task_informacion">
                             <p class="titulo"><?= htmlspecialchars($task['title']) ?></p>
                             <p class="responsable">
-                                <?= htmlspecialchars($task['responsible_name']) ?>
+                                <?= htmlspecialchars($task['responsible_name'] ?? "Sin asignar") ?>
                             </p>
                             <p class="status"><?= htmlspecialchars($task['status']) ?></p>
                         </div>

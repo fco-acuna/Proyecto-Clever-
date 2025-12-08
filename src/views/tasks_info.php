@@ -6,7 +6,7 @@ if (!isset($_GET["id"])) {
     die("No task ID provided");
 }
 
-
+// Traer información de la task
 $task_id = $_GET["id"];
 $stmt = $conn->prepare("SELECT * FROM tasks WHERE id = :id");
 $stmt->bindParam(':id', $task_id, PDO::PARAM_INT);
@@ -14,6 +14,32 @@ $stmt->execute();
 
 $task = $stmt->fetch(PDO::FETCH_ASSOC);
 $board_id = $task["board_id"];
+
+// Verificar si es supervisor
+$is_supervisor = ($_SESSION['rol'] ?? '') === 'supervisor';
+
+// Obtener todos los usuarios para el dropdown
+if ($is_supervisor) {
+    $stmt_users = $conn->prepare("SELECT id, name FROM users ORDER BY name");
+    $stmt_users->execute();
+    $all_users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Traer el nombre del usuario 
+$stmt = $conn->prepare("
+    SELECT tasks.*, users.name as responsible_name 
+    FROM tasks 
+    LEFT JOIN users ON tasks.assigned_to = users.id
+    WHERE tasks.id = :id
+");
+
+$stmt->bindParam(':id', $task_id, PDO::PARAM_INT);
+$stmt->execute();
+$task = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+
 
 if (!$task) {
     die("Task not found");
@@ -40,8 +66,30 @@ if (!$task) {
             <h1>Descripción:</h1>
             <p><?= nl2br(htmlspecialchars($task["description"])) ?></p>
         </div>
+
+        <div class="edit_resposable">
+            <h1>Responsable:</h1>
+            <p><?= nl2br(htmlspecialchars($task["responsible_name"])) ?></p>
+        </div>
+
         <form action="update_status.php" method="POST">
             <input type="hidden" name="task_id" value="<?= $task["id"] ?>">
+            <input type="hidden" name="board_id" value="<?= htmlspecialchars($board_id) ?>">
+
+            <!-- 🆕 NUEVO: Dropdown de responsable (solo para supervisores) -->
+            <?php if ($is_supervisor): ?>
+                <div class="edit_resposable_dropdown">
+                    <h3>Cambiar responsable:</h3>
+                    <select name="assigned_to">
+                        <?php foreach ($all_users as $user): ?>
+                            <option value="<?= $user['id'] ?>" 
+                                <?= $task['assigned_to'] == $user['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($user['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            <?php endif; ?>
 
             <div class="edit_status">
                 <div class="edit_status_titulo">
