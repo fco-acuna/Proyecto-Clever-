@@ -60,7 +60,6 @@ $stmt->execute();
 $available_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Obtener el name del usuario 
-
 $stmt = $conn->prepare("
     SELECT tasks.*, users.name as responsible_name 
     FROM tasks 
@@ -70,6 +69,33 @@ $stmt = $conn->prepare("
 $stmt->bindParam(':board_id', $board_id, PDO::PARAM_INT);
 $stmt->execute();  // <-- Ejecutar
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener el total de tareas
+$stmt = $conn->prepare ("
+    SELECT 
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'completada' THEN 1 ELSE 0 END) as completadas,
+        SUM(CASE WHEN status = 'en_proceso' THEN 1 ELSE 0 END) as en_proceso,
+        SUM(CASE WHEN status = 'pendiente' THEN 1 ELSE 0 END) as pendiente
+    FROM tasks
+    WHERE board_id = :board_id
+");
+
+$stmt->bindParam(':board_id', $board_id, PDO::PARAM_INT);
+$stmt->execute();
+$metrics = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Calcular el porcentaje de eficacia
+$total = $metrics['total'] ?? 0;
+$completadas = $metrics['completadas'] ?? 0;
+
+if ($total > 0){
+    $eficacia = ($completadas / $total) * 100;
+} else {
+    $eficacia = 0;
+}
+
+$eficacia = round($eficacia, 1);
 
 // 8️⃣ Manejo de mensajes de éxito/error
 $message = $_GET['msg'] ?? '';
@@ -81,130 +107,10 @@ $error = $_GET['error'] ?? '';
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($board['name']) ?></title>
-    <link rel="stylesheet" href="../CSS/tasks.css">
+    <link rel="stylesheet" href="/CSS/tasks.css">
     <style>
         /* Estilos adicionales para la gestión de usuarios */
-        .users_section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
         
-        .users_header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .user_item {
-            background: white;
-            padding: 10px 15px;
-            margin: 8px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .user_info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user_name {
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .user_email {
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        .user_role {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.85em;
-            margin-left: 10px;
-        }
-        
-        .role_supervisor {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .role_simple {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-        
-        .remove_btn {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-        
-        .remove_btn:hover {
-            background: #d32f2f;
-        }
-        
-        .assign_form {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .assign_form select {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .assign_btn {
-            background: #4caf50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .assign_btn:hover {
-            background: #45a049;
-        }
-        
-        .message {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .no_users {
-            color: #666;
-            font-style: italic;
-            padding: 10px;
-        }
     </style>
 </head>
 
@@ -217,6 +123,29 @@ $error = $_GET['error'] ?? '';
 
         <!-- Sección de Gestión de Usuarios (solo para supervisores) -->
         <?php if ($is_supervisor): ?>
+        <div class="metricas">
+            <div class="metrica">
+                <h3>Tareas totales</h3>
+                <p><?= $metrics['total']?></p>
+            </div>
+            <div class="metrica">
+                <h3>Completadas</h3>
+                <p><?= $metrics['completadas']?></p>
+            </div>
+            <div class="metrica">
+                <h3>En proceso</h3>
+                <p><?= $metrics['en_proceso']?></p>
+            </div>
+            <div class="metrica">
+                <h3>Backlog</h3>
+                <p><?= $metrics['pendiente']?></p>
+            </div>
+            <div class="metrica">
+                <h3>Porcentaje de Eficacia</h3>
+                <p><?= $eficacia?>%</p>
+            </div>
+        </div>
+
         <div class="users_section">
             <div class="users_header">
                 <h3>👥 Usuarios Asignados (<?= count($assigned_users) ?>)</h3>
