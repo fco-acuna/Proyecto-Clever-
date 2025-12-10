@@ -61,7 +61,6 @@ p {
     margin: 0px;
 }
 
-
 .task_link {
     margin-left: 10px;
 }
@@ -106,3 +105,141 @@ p {
     transition: 0.2s ease;
 }
 
+.metricas {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+}
+
+.metricas h3 {
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+.metrica {
+    border-style: solid;
+    padding: 35px;
+    border-radius: 8px
+}
+
+.users_section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+        
+.users_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+        
+.user_item {
+    background: white;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+        
+.user_info {
+    display: flex;
+    flex-direction: column;
+}
+        
+.user_name {
+    font-weight: bold;
+    color: #333;
+}
+        
+.user_email {
+    font-size: 0.9em;
+    color: #666;
+}
+        
+.user_role {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+        
+.role_supervisor {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+        
+.role_simple {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+        
+.remove_btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+        
+.remove_btn:hover {
+    background: #d32f2f;
+}
+        
+.assign_form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+        
+.assign_form select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+        
+.assign_btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+        
+.assign_btn:hover {
+    background: #45a049;
+}
+        
+.message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+        
+.message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+        
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+        
+.no_users {
+    color: #666;
+    font-style: italic;
+    padding: 10px;
+}
