@@ -40,11 +40,34 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if ($_SESSION['rol'] === "supervisor"): ?>
         <div class="container_titulo">
             <h1>Dashboards</h1>
-            <form action="create_board.php" method="POST" class="form_crear_board">
-                <input type="text" name="name" placeholder="Nombre del Board" required>
-                <textarea name="description" placeholder="Descripción opcional"></textarea>
-                <button type="submit">Crear Board</button>
-            </form>
+            <button id="openModalBtn" class="btn_nuevo_board">+ Nuevo Board</button>
+        </div>
+
+        <!-- Modal -->
+        <div id="modalCrearBoard" class="modal">
+            <div class="modal_content">
+                <div class="modal_header">
+                    <h2>Crear Nuevo Board</h2>
+                    <span class="close">&times;</span>
+                </div>
+                
+                <form action="create_board.php" method="POST" class="form_crear_board">
+                    <div class="form_group">
+                        <label for="name">Nombre del Board *</label>
+                        <input type="text" id="name" name="name" placeholder="Ej: Proyecto Marketing Q1" required>
+                    </div>
+                    
+                    <div class="form_group">
+                        <label for="description">Descripción</label>
+                        <textarea id="description" name="description" placeholder="Describe el propósito de este board..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="modal_footer">
+                        <button type="button" class="btn_cancelar" onclick="cerrarModal()">Cancelar</button>
+                        <button type="submit" class="btn_crear">Crear Board</button>
+                    </div>
+                </form>
+            </div>
         </div>
     <?php endif; ?>
 
@@ -114,5 +137,43 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </div>
 
+
+<script>
+    // Obtener elementos
+    const modal = document.getElementById('modalCrearBoard');
+    const btn = document.getElementById('openModalBtn');
+    const span = document.getElementsByClassName('close')[0];
+
+    // Abrir modal
+    btn.onclick = function() {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    }
+
+    // Cerrar modal con X
+    span.onclick = function() {
+        cerrarModal();
+    }
+
+    // Cerrar modal clickeando afuera
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            cerrarModal();
+        }
+    }
+
+    // Función para cerrar
+    function cerrarModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restaurar scroll
+    }
+
+    // Cerrar con tecla ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            cerrarModal();
+        }
+    });
+</script>
 </body>
 </html>
