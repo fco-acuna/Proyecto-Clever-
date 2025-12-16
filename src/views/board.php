@@ -41,6 +41,7 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container_titulo">
             <h1>Dashboards</h1>
             <button id="openModalBtn" class="btn_nuevo_board">+ Nuevo Board</button>
+            <button id="openModalBtnUsuario" class="btn_nuevo_board">+ Añadir Nuevo Usuario</button>
         </div>
 
         <!-- Modal -->
@@ -65,6 +66,43 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal_footer">
                         <button type="button" class="btn_cancelar" onclick="cerrarModal()">Cancelar</button>
                         <button type="submit" class="btn_crear">Crear Board</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Usuario -->
+        <div id="modalNuevoUsuario" class="modal">
+            <div class="modal_content">
+                <div class="modal_header">
+                    <h2>Crear nuevo usuario</h2>
+                    <span class="close">&times;</span>
+                </div>
+                
+                <form action="create_user.php" method="POST" class="form_crear_board">
+                    <div class="form_group">
+                        <label for="name">Nombre del usuario*</label>
+                        <input type="text" id="name" name="name" placeholder="Ej: Francisco Acuña" required>
+                    </div>
+                    
+                    <div class="form_group">
+                        <label for="email">Email</label>
+                        <input id="description" name="email" placeholder="XXXXXXXX@XXXXXX.XXX"></input>
+                    </div>
+
+                    <div class="form_group">
+                        <label for="password">Password</label>
+                        <input id="description" name="password" placeholder="XXXXXXXX"></input>
+                    </div>
+
+                    <div class="form_group">
+                        <label for="role">Role</label>
+                        <input id="description" name="role" placeholder="supervisor / simple"></input>
+                    </div>
+                    
+                    <div class="modal_footer">
+                        <button type="button" class="btn_cancelar" onclick="cerrarModal()">Cancelar</button>
+                        <button type="submit" class="btn_crear">Crear Usuario</button>
                     </div>
                 </form>
             </div>
@@ -138,42 +176,75 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 
-<script>
-    // Obtener elementos
-    const modal = document.getElementById('modalCrearBoard');
-    const btn = document.getElementById('openModalBtn');
-    const span = document.getElementsByClassName('close')[0];
+    <script>
+        // ==================== MODAL CREAR BOARD ====================
+        const modalBoard = document.getElementById('modalCrearBoard');
+        const btnBoard = document.getElementById('openModalBtn');
+        const closeBoard = modalBoard.querySelector('.close');
 
-    // Abrir modal
-    btn.onclick = function() {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-    }
-
-    // Cerrar modal con X
-    span.onclick = function() {
-        cerrarModal();
-    }
-
-    // Cerrar modal clickeando afuera
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            cerrarModal();
+        // Abrir modal board
+        btnBoard.onclick = function() {
+            modalBoard.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
-    }
 
-    // Función para cerrar
-    function cerrarModal() {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restaurar scroll
-    }
-
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.style.display === 'block') {
-            cerrarModal();
+        // Cerrar modal board con X
+        closeBoard.onclick = function() {
+            cerrarModalBoard();
         }
-    });
-</script>
+
+        // Función para cerrar modal board
+        function cerrarModalBoard() {
+            modalBoard.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ==================== MODAL CREAR USUARIO ====================
+        const modalUsuario = document.getElementById('modalNuevoUsuario');
+        const btnUsuario = document.getElementById('openModalBtnUsuario'); // minúscula
+        const closeUsuario = modalUsuario.querySelector('.close');
+
+        // Abrir modal usuario
+        btnUsuario.onclick = function() {
+            modalUsuario.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Cerrar modal usuario con X
+        closeUsuario.onclick = function() {
+            cerrarModalUsuario();
+        }
+
+        // Función para cerrar modal usuario
+        function cerrarModalUsuario() {
+            modalUsuario.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ==================== EVENTOS GLOBALES ====================
+
+        // Cerrar modales clickeando afuera
+        window.onclick = function(event) {
+            if (event.target == modalBoard) {
+                cerrarModalBoard();
+            }
+            if (event.target == modalUsuario) {
+                cerrarModalUsuario();
+            }
+        }
+
+        // Cerrar modales con tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                if (modalBoard.style.display === 'block') {
+                    cerrarModalBoard();
+                }
+                if (modalUsuario.style.display === 'block') {
+                    cerrarModalUsuario();
+                }
+            }
+        });
+
+    </script>
 </body>
 </html>
