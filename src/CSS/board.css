@@ -38,18 +38,15 @@
 }
 
 /* Por ahora, valores “poser” */
-.progress.completed {
-    width: 85%; 
+.progress.completed { 
     background-color: #4caf50; /* verde */
 }
 
 .progress.in-progress {
-    width: 45%; 
     background-color: #ff9800; /* naranja */
 }
 
 .progress.backlog {
-    width: 20%;
     background-color: #f44336; /* rojo */
 }
 

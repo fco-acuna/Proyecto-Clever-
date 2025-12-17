@@ -134,6 +134,23 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($counts_raw as $row) {
             $counts[$row["status"]] = $row["total"];
         }
+
+        // calcular el total de tareas 
+        $total = $counts['pendiente'] + $counts['en_proceso'] + $counts['completada'];
+
+        // Calcular los porcentajes
+        //manejar primero si el total es 0
+
+        if ($total > 0) {
+            $porcentaje_completada = $counts['completada'] / $total * 100;
+            $porcentaje_pendiente = $counts['pendiente'] / $total * 100;
+            $porcentaje_en_proceso = $counts['en_proceso'] / $total * 100;
+        } else {
+            $porcentaje_completada = 0;
+            $porcentaje_en_proceso = 0;
+            $porcentaje_pendiente = 0;
+        }
+        
         ?>
 
         <div class="dashboard">
@@ -143,13 +160,12 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="tasks">
-
                 <div class="completed">
                     <p>Completadas</p>
                     <p><?= $counts["completada"] ?></p>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress completed"></div>
+                    <div class="progress completed" style="width: <?= $porcentaje_completada ?>%"></div>
                 </div>
 
                 <div class="in_progress">
@@ -157,7 +173,7 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <p><?= $counts["en_proceso"] ?></p>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress in-progress"></div>
+                    <div class="progress in-progress" style="width: <?= $porcentaje_en_proceso ?>%"></div>
                 </div>
 
                 <div class="backlog">
@@ -165,9 +181,8 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <p><?= $counts["pendiente"] ?></p>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress backlog"></div>
+                    <div class="progress backlog" style="width: <?= $porcentaje_pendiente ?>%"></div>
                 </div>
-
             </div>
         </div>
 
