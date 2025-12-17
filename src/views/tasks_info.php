@@ -113,7 +113,7 @@ if (!$task) {
                     <label class="edit_opciones <?= $task["status"] === "pendiente" ? "selected" : "" ?>">
                         <input type="radio" name="status" value="pendiente"
                             <?= $task["status"] === "pendiente" ? "checked" : "" ?>>
-                        <p>Backlog</p>
+                        <p>Pendiente</p>
                     </label>
                     <input type="hidden" name="board_id" value="<?= htmlspecialchars($board_id) ?>">
                 </div>
