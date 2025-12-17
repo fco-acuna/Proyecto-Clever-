@@ -176,7 +176,7 @@ $error = $_GET['error'] ?? '';
                 <p><?= $metrics['en_proceso']?></p>
             </div>
             <div class="metrica">
-                <h3>Backlog</h3>
+                <h3>Pendiente</h3>
                 <p><?= $metrics['pendiente']?></p>
             </div>
             <div class="metrica">
@@ -285,7 +285,7 @@ $error = $_GET['error'] ?? '';
             <?php endif; ?>
         </div>
 
-        <div>
+        <div style="margin-top: 15px;">
             <a href="../views/board.php">Regreso a Boards</a>
         </div>
     </div>
