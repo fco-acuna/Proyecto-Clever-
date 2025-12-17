@@ -211,9 +211,22 @@ $error = $_GET['error'] ?? '';
             <?php if (!empty($tasks)): ?>
                 <?php foreach ($tasks as $task): ?>
                     <div class="task">
-                        <div class="task_semaforo">
-                            <p>°</p>
-                        </div>
+                        <?php if (($task['status']) == 'completada'): ?>
+                            <div class="task_semaforo">
+                                <p style='color: #4caf50;'>°</p>
+                            </div>
+                        <?php elseif (($task['status']) == 'en_proceso'): ?>
+                            <div class="task_semaforo">
+                                <p style='color: #ff9800;'>°</p>
+                            </div>
+                        <?php elseif (($task['status']) == 'pendiente'): ?>
+                            <div class="task_semaforo">
+                                <p style='color: #f44336;'>°</p>
+                            </div>
+                        <?php endif; ?>
+                        
+                        
+
                         <div class="task_informacion">
                             <p class="titulo"><?= htmlspecialchars($task['title']) ?></p>
                             <p class="responsable">
