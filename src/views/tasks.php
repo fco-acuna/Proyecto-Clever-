@@ -118,7 +118,46 @@ $error = $_GET['error'] ?? '';
     <div class="dashboard_container">
         <div class="titulo_dashboard">
             <h3><?= htmlspecialchars($board['name']) ?></h3>
-            <a href="new_task.php?board_id=<?= $board['id'] ?>">Nueva Task</a>
+            <button id="openModalNuevaTask" class="btn_nuevo_board">+ Añadir Nueva Task</button>
+        </div>
+
+        <!-- Modal Nueva Task -->
+        <div id="modalNuevaTask" class="modal">
+            <div class="modal_content">
+                <div class="modal_header">
+                    <h2>Crear Nueva Task</h2>
+                    <span class="close">&times;</span>
+                </div>
+                
+                <form action="new_task.php" method="POST" class="form_crear_board">
+                    <input type="hidden" name="board_id" value="<?= $board_id ?>">
+                    
+                    <div class="form_group">
+                        <label for="task_title">Título *</label>
+                        <input type="text" id="task_title" name="title" placeholder="Ej: Diseñar landing page" required>
+                    </div>
+                    
+                    <div class="form_group">
+                        <label for="task_description">Descripción</label>
+                        <textarea id="task_description" name="description" placeholder="Describe la tarea..." rows="4"></textarea>
+                    </div>
+
+                    <div class="form_group">
+                        <label for="task_status">Status *</label>
+                        <select id="task_status" name="status" required>
+                            <option value="">-- Seleccionar status --</option>
+                            <option value="pendiente" selected>Pendiente</option>
+                            <option value="en_proceso">En Proceso</option>
+                            <option value="completada">Completada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal_footer">
+                        <button type="button" class="btn_cancelar" onclick="cerrarModalNuevaTask()">Cancelar</button>
+                        <button type="submit" class="btn_crear">Crear Tarea</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!-- Sección de Gestión de Usuarios (solo para supervisores) -->
@@ -250,5 +289,55 @@ $error = $_GET['error'] ?? '';
             <a href="../views/board.php">Regreso a Boards</a>
         </div>
     </div>
+
+    <script>
+        // Modal Crear Nueva Tarea //
+        const modalNuevaTask = document.getElementById("modalNuevaTask");
+        const btnTask = document.getElementById("openModalNuevaTask");
+        const closeTask = modalNuevaTask.querySelector('.close');
+
+        console.log("Modal:", modalNuevaTask);
+        console.log("Botón:", btnTask);
+        console.log("Close:", closeTask);
+        
+        if (!modalNuevaTask) {
+            console.error("❌ No se encontró el modal");
+        }
+        if (!btnTask) {
+            console.error("❌ No se encontró el botón");
+        }
+
+        // Abrir modal
+        btnTask.onclick = function() {
+            modalNuevaTask.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Cerrar modal con X
+        closeTask.onclick = function() {
+            cerrarModalNuevaTask();
+        }
+
+        // Función para cerrar modal
+        function cerrarModalNuevaTask() {
+            modalNuevaTask.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cerrar clickeando afuera
+        window.onclick = function(event) {
+            if (event.target == modalNuevaTask) {
+                cerrarModalNuevaTask();
+            }
+        }
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modalNuevaTask.style.display === 'block') {
+                cerrarModalNuevaTask();
+            }
+        });
+
+    </script>
 </body>
 </html>
