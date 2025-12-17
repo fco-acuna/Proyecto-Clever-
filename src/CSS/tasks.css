@@ -34,9 +34,8 @@ p {
 }
 
 .task_semaforo {
-    font-size: 20px;
+    font-size: 40px;
     margin-right: 10px;
-    color: #2ecc71;
 }
 
 .task_informacion {
