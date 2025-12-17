@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once __DIR__ . '/../config/db.php';
 
-$board_id = (int) $_GET['board_id'];
+$board_id = (int) ($_POST['board_id'] ?? 0);
 $current_user_id = $_SESSION['user_id'];
 
 // Obtener info del board
@@ -42,42 +42,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear nueva tarea</title>
-</head>
-<body>
-
-<h2>Crear Nueva Tarea dentro del Board <?= htmlspecialchars($board["name"]) ?></h2>
-
-<?php if (isset($error)): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
-
-<form method="POST">
-    <label>Título:</label>
-    <input type="text" name="title" required><br><br>
-
-    <label>Descripción:</label><br>
-    <textarea name="description" rows="4"></textarea><br><br>
-
-    <label>Status:</label>
-    <select name="status">
-        <option value="pendiente">Backlog</option>
-        <option value="en_proceso">En progreso</option>
-        <option value="completada">Completada</option>
-    </select><br><br>
-
-    <button type="submit">Crear Nueva Tarea</button>
-</form>
-
-<div>
-    <a href="../views/board.php">Regreso a tareas</a>
-</div>
-
-</body>
-</html>
