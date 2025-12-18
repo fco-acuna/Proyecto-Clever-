@@ -108,10 +108,6 @@ $error = $_GET['error'] ?? '';
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($board['name']) ?></title>
     <link rel="stylesheet" href="/CSS/tasks.css">
-    <style>
-        /* Estilos adicionales para la gestión de usuarios */
-        
-    </style>
 </head>
 
 <body>
@@ -160,92 +156,142 @@ $error = $_GET['error'] ?? '';
             </div>
         </div>
 
-        <!-- Sección de Gestión de Usuarios (solo para supervisores) -->
+        <!-- Sección de Métricas y Usuarios (solo para supervisores) -->
         <?php if ($is_supervisor): ?>
-        <div class="metricas">
-            <div class="metrica">
-                <h3>Tareas totales</h3>
-                <p><?= $metrics['total']?></p>
-            </div>
-            <div class="metrica">
-                <h3>Completadas</h3>
-                <p><?= $metrics['completadas']?></p>
-            </div>
-            <div class="metrica">
-                <h3>En proceso</h3>
-                <p><?= $metrics['en_proceso']?></p>
-            </div>
-            <div class="metrica">
-                <h3>Pendiente</h3>
-                <p><?= $metrics['pendiente']?></p>
-            </div>
-            <div class="metrica">
-                <h3>Porcentaje de Eficacia</h3>
-                <p><?= $eficacia?>%</p>
-            </div>
-        </div>
-
-        <div class="users_section">
-            <div class="users_header">
-                <h3>👥 Usuarios Asignados (<?= count($assigned_users) ?>)</h3>
-            </div>
-
-            <!-- Mensajes de éxito/error -->
-            <?php if ($message): ?>
-                <div class="message success"><?= htmlspecialchars($message) ?></div>
-            <?php endif; ?>
-            <?php if ($error): ?>
-                <div class="message error"><?= htmlspecialchars($error) ?></div>
-            <?php endif; ?>
-
-            <!-- Lista de usuarios asignados -->
-            <?php if (!empty($assigned_users)): ?>
-                <?php foreach ($assigned_users as $user): ?>
-                    <div class="user_item">
-                        <div class="user_info">
-                            <span class="user_name">
-                                <?= htmlspecialchars($user['name']) ?>
-                                <span class="user_role role_<?= $user['role'] ?>">
-                                    <?= ucfirst($user['role']) ?>
-                                </span>
-                            </span>
-                            <span class="user_email"><?= htmlspecialchars($user['email']) ?></span>
+            <!-- Métricas -->
+            <div class="metrics_section">
+                <h2 class="metrics_title">📊 Métricas del Board</h2>
+                
+                <div class="metrics_grid">
+                    
+                    <!-- Métrica: Total -->
+                    <div class="metric_card metric_total">
+                        <div class="metric_icon">📋</div>
+                        <div class="metric_content">
+                            <h3 class="metric_label">Total de Tareas</h3>
+                            <p class="metric_value"><?= $metrics['total'] ?></p>
                         </div>
-                        <form method="POST" action="remove_user.php" style="margin: 0;">
-                            <input type="hidden" name="board_id" value="<?= $board_id ?>">
-                            <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                            <button type="submit" class="remove_btn" 
-                                    onclick="return confirm('¿Seguro que deseas quitar a <?= htmlspecialchars($user['name']) ?>?')">
-                                ✕ Quitar
-                            </button>
-                        </form>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p class="no_users">No hay usuarios asignados a este board.</p>
-            <?php endif; ?>
 
-            <!-- Formulario para asignar nuevos usuarios -->
-            <?php if (!empty($available_users)): ?>
-                <form method="POST" action="assign_user.php" class="assign_form">
-                    <input type="hidden" name="board_id" value="<?= $board_id ?>">
-                    <select name="user_id" required>
-                        <option value="">-- Seleccionar usuario --</option>
-                        <?php foreach ($available_users as $user): ?>
-                            <option value="<?= $user['id'] ?>">
-                                <?= htmlspecialchars($user['name']) ?> (<?= htmlspecialchars($user['email']) ?>)
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <button type="submit" class="assign_btn">➕ Asignar Usuario</button>
-                </form>
-            <?php else: ?>
-                <p class="no_users">Todos los usuarios disponibles ya están asignados.</p>
-            <?php endif; ?>
-        </div>
+                    <!-- Métrica: Completadas -->
+                    <div class="metric_card metric_completed">
+                        <div class="metric_icon">✓</div>
+                        <div class="metric_content">
+                            <h3 class="metric_label">Completadas</h3>
+                            <p class="metric_value"><?= $metrics['completadas'] ?></p>
+                            <?php if ($metrics['total'] > 0): ?>
+                                <span class="metric_percentage">
+                                    <?= round(($metrics['completadas'] / $metrics['total']) * 100, 1) ?>%
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Métrica: En Proceso -->
+                    <div class="metric_card metric_progress">
+                        <div class="metric_icon">⟳</div>
+                        <div class="metric_content">
+                            <h3 class="metric_label">En Proceso</h3>
+                            <p class="metric_value"><?= $metrics['en_proceso'] ?></p>
+                            <?php if ($metrics['total'] > 0): ?>
+                                <span class="metric_percentage">
+                                    <?= round(($metrics['en_proceso'] / $metrics['total']) * 100, 1) ?>%
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Métrica: Pendientes -->
+                    <div class="metric_card metric_pending">
+                        <div class="metric_icon">○</div>
+                        <div class="metric_content">
+                            <h3 class="metric_label">Pendientes</h3>
+                            <p class="metric_value"><?= $metrics['pendiente'] ?></p>
+                            <?php if ($metrics['total'] > 0): ?>
+                                <span class="metric_percentage">
+                                    <?= round(($metrics['pendiente'] / $metrics['total']) * 100, 1) ?>%
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Métrica: Eficacia (destacada) -->
+                    <div class="metric_card metric_efficiency">
+                        <div class="metric_icon">🎯</div>
+                        <div class="metric_content">
+                            <h3 class="metric_label">Eficacia</h3>
+                            <p class="metric_value_large"><?= $eficacia ?>%</p>
+                            <div class="efficiency_bar">
+                                <div class="efficiency_fill" style="width: <?= $eficacia ?>%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Usuarios -->
+            <div class="users_section">
+                <div class="users_header">
+                    <h3>👥 Usuarios Asignados (<?= count($assigned_users) ?>)</h3>
+                </div>
+
+                <!-- Mensajes de éxito/error -->
+                <?php if ($message): ?>
+                    <div class="message success"><?= htmlspecialchars($message) ?></div>
+                <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="message error"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
+
+                <!-- Lista de usuarios asignados -->
+                <?php if (!empty($assigned_users)): ?>
+                    <?php foreach ($assigned_users as $user): ?>
+                        <div class="user_item">
+                            <div class="user_info">
+                                <span class="user_name">
+                                    <?= htmlspecialchars($user['name']) ?>
+                                    <span class="user_role role_<?= $user['role'] ?>">
+                                        <?= ucfirst($user['role']) ?>
+                                    </span>
+                                </span>
+                                <span class="user_email"><?= htmlspecialchars($user['email']) ?></span>
+                            </div>
+                            <form method="POST" action="remove_user.php" style="margin: 0;">
+                                <input type="hidden" name="board_id" value="<?= $board_id ?>">
+                                <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                                <button type="submit" class="remove_btn" 
+                                        onclick="return confirm('¿Seguro que deseas quitar a <?= htmlspecialchars($user['name']) ?>?')">
+                                    ✕ Quitar
+                                </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="no_users">No hay usuarios asignados a este board.</p>
+                <?php endif; ?>
+
+                <!-- Formulario para asignar nuevos usuarios -->
+                <?php if (!empty($available_users)): ?>
+                    <form method="POST" action="assign_user.php" class="assign_form">
+                        <input type="hidden" name="board_id" value="<?= $board_id ?>">
+                        <select name="user_id" required>
+                            <option value="">-- Seleccionar usuario --</option>
+                            <?php foreach ($available_users as $user): ?>
+                                <option value="<?= $user['id'] ?>">
+                                    <?= htmlspecialchars($user['name']) ?> (<?= htmlspecialchars($user['email']) ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit" class="assign_btn">➕ Asignar Usuario</button>
+                    </form>
+                <?php else: ?>
+                    <p class="no_users">Todos los usuarios disponibles ya están asignados.</p>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
 
-        <!-- Sección de Tareas -->
+        <!-- Sección de Tareas (visible para todos) -->
         <div class="container_tasks">
             <?php if (!empty($tasks)): ?>
                 <?php foreach ($tasks as $task): ?>
@@ -263,8 +309,6 @@ $error = $_GET['error'] ?? '';
                                 <p style='color: #f44336;'>°</p>
                             </div>
                         <?php endif; ?>
-                        
-                        
 
                         <div class="task_informacion">
                             <p class="titulo"><?= htmlspecialchars($task['title']) ?></p>
@@ -286,7 +330,7 @@ $error = $_GET['error'] ?? '';
         </div>
 
         <div style="margin-top: 15px;">
-            <a href="../views/board.php">Regreso a Boards</a>
+            <a href="../views/board.php" class="btn_back">← Volver a Boards</a>
         </div>
     </div>
 
@@ -295,17 +339,6 @@ $error = $_GET['error'] ?? '';
         const modalNuevaTask = document.getElementById("modalNuevaTask");
         const btnTask = document.getElementById("openModalNuevaTask");
         const closeTask = modalNuevaTask.querySelector('.close');
-
-        console.log("Modal:", modalNuevaTask);
-        console.log("Botón:", btnTask);
-        console.log("Close:", closeTask);
-        
-        if (!modalNuevaTask) {
-            console.error("❌ No se encontró el modal");
-        }
-        if (!btnTask) {
-            console.error("❌ No se encontró el botón");
-        }
 
         // Abrir modal
         btnTask.onclick = function() {
@@ -337,7 +370,6 @@ $error = $_GET['error'] ?? '';
                 cerrarModalNuevaTask();
             }
         });
-
     </script>
 </body>
 </html>
