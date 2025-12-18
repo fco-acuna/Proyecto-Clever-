@@ -35,35 +35,64 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/login.css">
+    <link rel="stylesheet" href="/CSS/login.css">
     <title>Log-In</title>
 </head>
 <body>
-    <div class="container_login">
-        <div class="contenido_izquierda">
-            <h1>Bienvenido al Task Manager!</h1>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi numquam vel culpa quo ratione, similique esse architecto quod asperiores aliquam?</p>
-        </div>
-        <div class="contenido_derecha">
-            <div class="informacion">
-                <h3>Bienvenido de vuelta</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore.</p>
+    <div class="login_container">
+        
+        <!-- Lado izquierdo: Branding -->
+        <div class="login_brand">
+            <div class="brand_content">
+                <h1 class="brand_title">TaskManager</h1>
+                <p class="brand_subtitle">Organiza tu trabajo, simplifica tu día</p>
+                <div class="brand_illustration">
+                    <div class="illustration_circle circle_1"></div>
+                    <div class="illustration_circle circle_2"></div>
+                    <div class="illustration_circle circle_3"></div>
+                </div>
             </div>
-            <div class="formaulario_login">
-                <!-- Aquí empieza el formulario real -->
-                <form action="login.php" method="POST">
-                    <div class="inputs">
-                        <input type="text" name="email" placeholder="E-mail" required>
-                        <input type="password" name="password" placeholder="Contraseña" required>
+        </div>
+
+        <!-- Lado derecho: Formulario -->
+        <div class="login_form_section">
+            <div class="form_container">
+                <div class="form_header">
+                    <h2>Bienvenido de vuelta</h2>
+                    <p>Ingresa tus credenciales para continuar</p>
+                </div>
+
+                <form action="login.php" method="POST" class="login_form">
+                    <div class="input_group">
+                        <label for="email">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="tu@email.com" 
+                            required
+                            autocomplete="email"
+                        >
                     </div>
-                    <div>
-                        <button type="submit" class="button_login">Log-In</button>
+
+                    <div class="input_group">
+                        <label for="password">Contraseña</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••" 
+                            required
+                        >
                     </div>
+
+                    <button type="submit" class="btn_login">
+                        Iniciar Sesión
+                    </button>
                 </form>
-                <!-- Fin del formulario -->
             </div>
         </div>
+
     </div>
 </body>
 </html>
