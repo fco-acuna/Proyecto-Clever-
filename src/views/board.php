@@ -153,36 +153,68 @@ $boards = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         ?>
 
-        <div class="dashboard">
-            <div class="titulo_dashboard">
-                <h2><?= htmlspecialchars($board['name']) ?></h2>
-                <a href="tasks.php?board_id=<?= $board['id'] ?>">Ver Dashboard</a>
+        <div class="board_card">
+            <!-- Header del board -->
+            <div class="board_header">
+                <h2 class="board_title"><?= htmlspecialchars($board['name']) ?></h2>
+                <a href="tasks.php?board_id=<?= $board['id'] ?>" class="btn_view_board">
+                    Ver Dashboard →
+                </a>
             </div>
 
-            <div class="tasks">
-                <div class="completed">
-                    <p>Completadas</p>
-                    <p><?= $counts["completada"] ?></p>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress completed" style="width: <?= $porcentaje_completada ?>%"></div>
+            <!-- Métricas del board -->
+            <div class="board_metrics">
+                
+                <!-- Completadas -->
+                <div class="board_metric">
+                    <div class="metric_header">
+                        <span class="metric_icon icon_completed">✓</span>
+                        <div class="metric_info">
+                            <span class="metric_label">Completadas</span>
+                            <span class="metric_count"><?= $counts["completada"] ?></span>
+                        </div>
+                    </div>
+                    <div class="metric_bar">
+                        <div class="metric_fill fill_completed" style="width: <?= $porcentaje_completada ?>%"></div>
+                    </div>
+                    <span class="metric_percentage"><?= round($porcentaje_completada, 1) ?>%</span>
                 </div>
 
-                <div class="in_progress">
-                    <p>Trabajando</p>
-                    <p><?= $counts["en_proceso"] ?></p>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress in-progress" style="width: <?= $porcentaje_en_proceso ?>%"></div>
+                <!-- En Proceso -->
+                <div class="board_metric">
+                    <div class="metric_header">
+                        <span class="metric_icon icon_progress">⟳</span>
+                        <div class="metric_info">
+                            <span class="metric_label">En Proceso</span>
+                            <span class="metric_count"><?= $counts["en_proceso"] ?></span>
+                        </div>
+                    </div>
+                    <div class="metric_bar">
+                        <div class="metric_fill fill_progress" style="width: <?= $porcentaje_en_proceso ?>%"></div>
+                    </div>
+                    <span class="metric_percentage"><?= round($porcentaje_en_proceso, 1) ?>%</span>
                 </div>
 
-                <div class="backlog">
-                    <p>Pendientes</p>
-                    <p><?= $counts["pendiente"] ?></p>
+                <!-- Pendientes -->
+                <div class="board_metric">
+                    <div class="metric_header">
+                        <span class="metric_icon icon_pending">○</span>
+                        <div class="metric_info">
+                            <span class="metric_label">Pendientes</span>
+                            <span class="metric_count"><?= $counts["pendiente"] ?></span>
+                        </div>
+                    </div>
+                    <div class="metric_bar">
+                        <div class="metric_fill fill_pending" style="width: <?= $porcentaje_pendiente ?>%"></div>
+                    </div>
+                    <span class="metric_percentage"><?= round($porcentaje_pendiente, 1) ?>%</span>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress backlog" style="width: <?= $porcentaje_pendiente ?>%"></div>
-                </div>
+
+            </div>
+
+            <!-- Footer con total -->
+            <div class="board_footer">
+                <span class="total_tasks">📋 Total: <?= $total ?> tareas</span>
             </div>
         </div>
 
