@@ -23,6 +23,260 @@ p {
     color: grey;
 }
 
+/* ==================== TASK DETAIL PAGE ==================== */
+
+.task_detail_container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.task_detail_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.task_title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.task_status_badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status_completada {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status_en_proceso {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status_pendiente {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.btn_back {
+    padding: 10px 20px;
+    background: #f8f9fa;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid #dee2e6;
+}
+
+.btn_back:hover {
+    background: #e9ecef;
+    transform: translateX(-2px);
+}
+
+/* Grid Layout */
+.task_detail_grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+}
+
+@media (max-width: 968px) {
+    .task_detail_grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cards generales */
+.info_card,
+.action_card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.card_title {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+}
+
+.card_content {
+    color: #495057;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.text_muted {
+    color: #adb5bd;
+}
+
+/* Información del responsable */
+.responsible_info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.responsible_name {
+    font-size: 1.05rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Select de responsable */
+.select_responsible {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.select_responsible:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Opciones de status */
+.status_options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status_option {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.status_option:hover {
+    border-color: #cbd5e0;
+    background: #f8f9fa;
+}
+
+.status_option.selected {
+    border-color: #3498db;
+    background: #f0f8ff;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.status_option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.option_content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.option_icon {
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f8f9fa;
+    transition: all 0.2s;
+}
+
+.option_completada.selected .option_icon {
+    background: #d4edda;
+}
+
+.option_en_proceso.selected .option_icon {
+    background: #fff3cd;
+}
+
+.option_pendiente.selected .option_icon {
+    background: #f8d7da;
+}
+
+.option_label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 1rem;
+}
+
+/* Botón guardar */
+.btn_save {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn_save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.btn_save:active {
+    transform: translateY(0);
+}
+
+.task_form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
 .task {
     display: flex;
     align-items: center; 
@@ -104,22 +358,174 @@ p {
     transition: 0.2s ease;
 }
 
-.metricas {
+/* ==================== MÉTRICAS MEJORADAS ==================== */
+
+.metrics_section {
+    margin: 30px 0;
+}
+
+.metrics_title {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+.metrics_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Cards de métricas */
+.metric_card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
     display: flex;
-    justify-content: space-between;
-    padding: 25px;
+    gap: 16px;
+    align-items: flex-start;
 }
 
-.metricas h3 {
-    margin: 0px;
-    margin-bottom: 10px;
+.metric_card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: currentColor;
 }
 
-.metrica {
-    border-style: solid;
-    padding: 35px;
-    border-radius: 8px
+.metric_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
+
+/* Íconos */
+.metric_icon {
+    font-size: 2rem;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+/* Contenido */
+.metric_content {
+    flex: 1;
+}
+
+.metric_label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric_value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1;
+}
+
+.metric_value_large {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 12px 0;
+    line-height: 1;
+}
+
+.metric_percentage {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+
+/* Colores por tipo */
+.metric_total {
+    color: #6c757d;
+}
+
+.metric_total .metric_icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.metric_completed {
+    color: #28a745;
+}
+
+.metric_completed .metric_icon {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    color: white;
+}
+
+.metric_progress {
+    color: #ffc107;
+}
+
+.metric_progress .metric_icon {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.metric_pending {
+    color: #dc3545;
+}
+
+.metric_pending .metric_icon {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+}
+
+/* Métrica de eficacia (especial) */
+.metric_efficiency {
+    color: #17a2b8;
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .metric_efficiency {
+        grid-column: span 1;
+    }
+}
+
+.metric_efficiency .metric_icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* Barra de eficacia */
+.efficiency_bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.efficiency_fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
 
 .users_section {
     background: #f8f9fa;
